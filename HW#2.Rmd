@@ -45,8 +45,11 @@ beta_low<- -1.355e-04
 
 #Equation for high
 alpha_high<- 2.339e+01
-beta_high<- -1.279e-04
+beta_high<- -1.297e-04
 # p = alpha + beta(quantity)
+
+agg_Q<- (alpha_low - alpha_high)/(beta_high - beta_low)
+agg_Q
 
 ```
 
