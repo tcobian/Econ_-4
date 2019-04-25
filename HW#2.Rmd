@@ -26,8 +26,20 @@ demand_2<- ggplot(data, aes(x = Q_High_Gallons_per_Day, y = Price_Dollars))+
   geom_smooth()
 demand_2
 
+
 ```
 
+Combining denand curves
+
+```{r}
+
+
+
+
+
+
+
+```
 
 
 
