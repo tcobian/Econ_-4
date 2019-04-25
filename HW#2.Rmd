@@ -1,0 +1,47 @@
+---
+title: "HW#4"
+author: "Tyler Cobian"
+date: "4/25/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, include=FALSE}
+library(tidyverse)
+data<- read_csv("HW_#2.csv")
+
+```
+
+Make a plot for the demand curves
+
+```{r}
+demand_1<- ggplot(data, aes(x = Q_Low_Gallons_per_Day, y = Price_Dollars))+
+  geom_smooth()
+demand_1
+
+demand_2<- ggplot(data, aes(x = Q_High_Gallons_per_Day, y = Price_Dollars))+
+  geom_smooth()
+demand_2
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
