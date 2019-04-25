@@ -25,21 +25,33 @@ demand_1
 demand_2<- ggplot(data, aes(x = Q_High_Gallons_per_Day, y = Price_Dollars))+
   geom_smooth()
 demand_2
-
-
 ```
 
-Combining denand curves
+linear model of the the demand
 
 ```{r}
+demand_low_lm<- lm(Price_Dollars~Q_Low_Gallons_per_Day, data = data)
+plot(demand_lm)
+summary(demand_low_lm)
 
+demand_high_lm<- lm(Price_Dollars ~ Q_High_Gallons_per_Day, data = data)
+plot(demand_high_lm)
+summary(demand_high_lm)
 
+# Equation for Low demand
+alpha_low<- 2.199e+01
+beta_low<- -1.355e-04
+# p = alpha + beta(quantity)
 
-
-
-
+#Equation for high
+alpha_high<- 2.339e+01
+beta_high<- -1.279e-04
+# p = alpha + beta(quantity)
 
 ```
+
+
+
 
 
 
