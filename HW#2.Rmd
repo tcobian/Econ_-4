@@ -51,6 +51,8 @@ beta_high<- -1.297e-04
 agg_Q<- (alpha_low - alpha_high)/(beta_high - beta_low)
 agg_Q
 
+agg_P<- 54.7
+
 ```
 
 
