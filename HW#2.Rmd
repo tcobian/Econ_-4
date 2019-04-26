@@ -30,11 +30,11 @@ demand_2
 linear model of the the demand
 
 ```{r}
-demand_low_lm<- lm(Price_Dollars~Q_Low_Gallons_per_Day, data = data)
+demand_low_lm<- lm(data$Price_Dollars ~ data$Q_Low_Gallons_per_Day)
 plot(demand_low_lm)
 summary(demand_low_lm)
 
-demand_high_lm<- lm(Price_Dollars ~ Q_High_Gallons_per_Day, data = data)
+demand_high_lm<- lm(data$Price_Dollars ~ data$Q_High_Gallons_per_Day)
 plot(demand_high_lm)
 summary(demand_high_lm)
 
@@ -48,9 +48,6 @@ alpha_high<- 2.339e+01
 beta_high<- -1.297e-04
 # p = alpha + beta(quantity)
 
-agg_Q<- (alpha_low - alpha_high)/(beta_high - beta_low)
-agg_Q
-
 Q_low1<- (1/beta_low)
 Q_low2<- (alpha_low/-beta_low)
 # Q_low = Q_low1*P + Q_low2
@@ -61,8 +58,8 @@ Q_high2<- (alpha_high/-beta_high)
 # Q_high = Q_high1*P + Q_high2
 # equation for high demand group
 
-Q_agg1<- Q_low1+Q_low2 # aggreagte low demand
-Q_agg2<- Q_high1+Q_high2 # aggregate high demand
+Q_agg1<- Q_low1+Q_high1 # aggreagte low demand
+Q_agg2<- Q_low2+Q_high2 # aggregate high demand
 
 P_agg1<- 1/Q_agg1 # price for low demand
 P_agg2<- -Q_agg2/Q_agg1 # price for high demand
@@ -110,6 +107,18 @@ graph_1<- ggplot(data.frame(x = c(70000:500000)), aes(x=x))+
   scale_x_continuous(limits = c(0,500000), expand = c(0,0))
 
 graph_1
+
+
+```
+caalculating low demand consumer surplus
+
+```{r}
+low_base<- 125387.5 # how to get these #s??
+low_height<- 162282.8
+low_cs<- (1/2)*low_base*low_height
+# consumer surplus for the low demand  = 10174117292
+
+
 
 
 ```
