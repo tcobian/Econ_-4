@@ -31,7 +31,7 @@ linear model of the the demand
 
 ```{r}
 demand_low_lm<- lm(Price_Dollars~Q_Low_Gallons_per_Day, data = data)
-plot(demand_lm)
+plot(demand_low_lm)
 summary(demand_low_lm)
 
 demand_high_lm<- lm(Price_Dollars ~ Q_High_Gallons_per_Day, data = data)
@@ -51,7 +51,36 @@ beta_high<- -1.297e-04
 agg_Q<- (alpha_low - alpha_high)/(beta_high - beta_low)
 agg_Q
 
-agg_P<- 54.7
+Q_low1<- (1/beta_low)
+Q_low2<- (alpha_low/-beta_low)
+# Q_low = Q_low1*P + Q_low2
+# equation for low demand group
+
+Q_high1<- (1/beta_high)
+Q_high2<- (alpha_high/-beta_high)
+# Q_high = Q_high1*P + Q_high2
+# equation for high demand group
+
+Q_agg1<- Q_low1+Q_low2 # aggreagte low demand
+Q_agg2<- Q_high1+Q_high2 # aggregate high demand
+
+P_agg1<- 1/Q_agg1 # price for low demand
+P_agg2<- -Q_agg2/Q_agg1 # price for high demand
+
+# Supply curve
+
+supply<- 5/((5-P_agg2)/P_agg1)
+```
+Functions - making the lines from values above
+
+```{r}
+
+
+
+
+
+
+
 
 ```
 
