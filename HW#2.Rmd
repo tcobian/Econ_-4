@@ -74,6 +74,42 @@ supply<- 5/((5-P_agg2)/P_agg1)
 Functions - making the lines from values above
 
 ```{r}
+#low demand curve
+demand_low<- function(x){alpha_low+beta_low*x}
+
+# high demand curve
+demand_high<- function(x){alpha_high+beta_high*x}
+
+# aggregate demand curve
+demand_agg<- function(x){P_agg2+P_agg1*x}
+
+# Supply curve
+supply_curve<- function(x){supply*x}
+
+# marginal external cost curve
+mec<- function(x){2 + 0*x}
+```
+Graphing out the functions
+
+```{r}
+# optimum point on th graph
+
+opt<- data.frame(x = c(0:267176.2), y = c(5))
+x<- 70000:500000
+
+graph_1<- ggplot(data.frame(x = c(70000:500000)), aes(x=x))+
+  stat_function(fun = demand_low)+
+  stat_function(fun = demand_high)+
+  stat_function(fun = demand_agg)+
+  stat_function(fun = supply_curve)+
+  stat_function(fun = mec)+
+  xlab("\nQuantity")+
+  ylab("Price\n")+
+  ggtitle("Intial Gas Market \n")+
+  scale_y_continuous(limits = c(0,25), expand = c(0,0))+
+  scale_x_continuous(limits = c(0,500000), expand = c(0,0))
+
+graph_1
 
 
 
@@ -83,6 +119,14 @@ Functions - making the lines from values above
 
 
 ```
+
+
+
+
+
+
+
+
 
 
 
