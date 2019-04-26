@@ -98,11 +98,11 @@ opt<- data.frame(x = c(0:267176.2), y = c(5))
 x<- 70000:500000
 
 graph_1<- ggplot(data.frame(x = c(70000:500000)), aes(x=x))+
-  stat_function(fun = demand_low)+
-  stat_function(fun = demand_high)+
-  stat_function(fun = demand_agg)+
-  stat_function(fun = supply_curve)+
-  stat_function(fun = mec)+
+  stat_function(fun = demand_low, color = "darkblue")+
+  stat_function(fun = demand_high, color = "darkorange")+
+  stat_function(fun = demand_agg, color = "darkgreen")+
+  stat_function(fun = supply_curve, color = "pink")+
+  stat_function(fun = mec, color = "darkred")+
   xlab("\nQuantity")+
   ylab("Price\n")+
   ggtitle("Intial Gas Market \n")+
@@ -110,12 +110,6 @@ graph_1<- ggplot(data.frame(x = c(70000:500000)), aes(x=x))+
   scale_x_continuous(limits = c(0,500000), expand = c(0,0))
 
 graph_1
-
-
-
-
-
-
 
 
 ```
