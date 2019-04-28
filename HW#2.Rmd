@@ -15,20 +15,22 @@ data<- read_csv("HW_#2.csv")
 
 ```
 
-Make a plot for the demand curves
+Question 1.
 
+a) Make a plot for the demand curves
 ```{r}
 demand_1<- ggplot(data, aes(x = Q_Low_Gallons_per_Day, y = Price_Dollars))+
-  geom_smooth()
+  geom_point() +
+  stat_smooth(method = "lm")
 demand_1
 
 demand_2<- ggplot(data, aes(x = Q_High_Gallons_per_Day, y = Price_Dollars))+
-  geom_smooth()
+  geom_point() +
+  stat_smooth(method = "lm")
 demand_2
 ```
 
-linear model of the the demand
-
+b) Linear model of the demand curves
 ```{r}
 demand_low_lm<- lm(data$Price_Dollars ~ data$Q_Low_Gallons_per_Day)
 plot(demand_low_lm)
@@ -38,25 +40,28 @@ demand_high_lm<- lm(data$Price_Dollars ~ data$Q_High_Gallons_per_Day)
 plot(demand_high_lm)
 summary(demand_high_lm)
 
-# Equation for Low demand
-alpha_low<- 2.199e+01
-beta_low<- -1.355e-04
-# p = alpha + beta(quantity)
+# Low demand coefficients
+#P = -0.0001355174(Q) + 21.99085
+alpha_low <- demand_low_lm[["coefficients"]][["(Intercept)"]]
+beta_low <- demand_low_lm[["coefficients"]][["data$Q_Low_Gallons_per_Day"]]
+# p = beta(q) + alpha
 
-#Equation for high
-alpha_high<- 2.339e+01
-beta_high<- -1.297e-04
-# p = alpha + beta(quantity)
+# High demand coefficients
+#P = -0.0001296638(Q) + 23.39144
+alpha_high <- demand_high_lm[["coefficients"]][["(Intercept)"]]
+beta_high <- demand_high_lm[["coefficients"]][["data$Q_High_Gallons_per_Day"]]
+# p = beta(q) + alpha
 
+#Equation for low demand group
 Q_low1<- (1/beta_low)
 Q_low2<- (alpha_low/-beta_low)
 # Q_low = Q_low1*P + Q_low2
-# equation for low demand group
 
+
+#Equation for high demand group
 Q_high1<- (1/beta_high)
 Q_high2<- (alpha_high/-beta_high)
 # Q_high = Q_high1*P + Q_high2
-# equation for high demand group
 
 Q_agg1<- Q_low1+Q_high1 # aggreagte low demand
 Q_agg2<- Q_low2+Q_high2 # aggregate high demand
@@ -67,9 +72,11 @@ P_agg2<- -Q_agg2/Q_agg1 # price for high demand
 # Supply curve
 
 supply<- 5/((5-P_agg2)/P_agg1)
+supply
 ```
-Functions - making the lines from values above
 
+
+c) Demand curve functions
 ```{r}
 #low demand curve
 demand_low<- function(x){alpha_low+beta_low*x}
@@ -86,8 +93,8 @@ supply_curve<- function(x){supply*x}
 # marginal external cost curve
 mec<- function(x){2 + 0*x}
 ```
-Graphing out the functions
 
+d) Demand curve graphs
 ```{r}
 # optimum point on th graph
 
@@ -110,43 +117,129 @@ graph_1
 
 
 ```
-caalculating low demand consumer surplus
 
+e) Aggregate consumer benefit
 ```{r}
-low_base<- 125387.5 # how to get these #s??
-low_height<- 162282.8
-low_cs<- (1/2)*low_base*low_height
-# consumer surplus for the low demand  = 10174117292
+#Equilibrium pt: demand_agg = supply_curve
+#P = 5
+#Q = 267217.062558
+
+#Y intercept of agg demand
+demand_agg(0) #22.70661
+
+#Create a function for agg demand at the equilibrium point
+demand_agg2<- function(x){P_agg2+P_agg1*x - 5}
+
+#Find the area under the curve via integrating
+agg_cs <- integrate(demand_agg2, 0, 267217.062558)
+agg_cs #2365754
+
+#Double check the area using shapes
+agg_height <- 22.70661 - 5
+agg_base <- 267217.062558
+agg_cs <- (1/2)*agg_base*agg_height #2365754.1560 WOOOOOO THEYRE EQUAL 
+
+#Aggregate consumer surplus  = 2365754.1560
 
 
+##wait do we have to account for the kink??? 
+```
 
+f) Producer surplus
+```{r}
+
+```
+
+g) Environmental cost
+```{r}
 
 ```
 
 
+Question 2: Distribution of benefits
+
+a) Low demand consumer benefit at P = 5
+```{r}
+#5 = -0.0001355174(Q) + 21.99085
+#Q = 125377.626784
+
+demand_low(125377.626784)
+
+#Create a function for low demand at the current price
+demand_low2<- function(x){alpha_low+beta_low*x - 5}
+
+#Find the area under the curve via integrating
+demandint_low <- integrate(demand_low2, 0, 125377.626784)
+demandint_low #1065137
+
+#Double check the area using shapes
+low_height <- 21.99085 - 5
+low_base <- 125377.626784
+low_cs <- (1/2)*low_base*low_height #1065136 
+
+#Low demand benefit = 1065136
+
+```
+
+b) High demand consumer benefit at P = 5
+```{r}
+#5 = -0.0001296638(Q) + 23.39144
+#Q = 141839.433982
+
+demand_high(141839.433982)
+
+#Create a function for low demand at the current price
+demand_high2<- function(x){alpha_high+beta_high*x - 5}
+
+#Find the area under the curve via integrating
+demandint_high <- integrate(demand_high2, 0, 141839.433982)
+demandint_high #1304316
+
+#Double check the area using shapes
+high_height <- 23.39144 - 5
+high_base <- 141839.433982
+high_cs <- (1/2)*high_base*high_height #1304315.7199
+
+#High demand benefit = 1304315.7199
+
+```
 
 
+Question 3: Gas tax
+
+a) New quantity of gas
+```{r}
+
+```
+
+b) New gas price
+```{r}
+
+```
 
 
+c) New high consumer benefit
+```{r}
 
+```
 
+d) New low consumer benefit
+```{r}
 
+```
 
+e) New producer benefit
+```{r}
 
+```
 
+f) Total envr damage
+```{r}
 
+```
 
+g) Total tax revenue 
+```{r}
 
-
-
-
-
-
-
-
-
-
-
-
-
+```
 
