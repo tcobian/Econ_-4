@@ -367,6 +367,23 @@ you consume). Also assume that “Low” income consumers bear all
 environmental costs. For a range of gas taxes (ranging from $0 - $5.00/gal),
 calculate the effects of the tax on:
 
+
+```{r}
+# set up the problem
+
+tax_amount<- seq(0.25,0.5, by = 0.25)
+# add this to the supply curve
+supply_tax_new<- function(x){tax_amount + supply_curve*x}
+# set price at the initial equilibrium of $5
+tax_seq<- 5
+# quantity with the tax
+q_tax_new<-
+
+
+
+
+```
+
 a: Overall welfare of “High” income consumers
 ```{r}
 
