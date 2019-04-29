@@ -361,3 +361,76 @@ tax_rev
 
 ```
 
+4. Now, assume that all revenue from a tax will be used for infrastructure repairs,
+and that the benefit of this is proportional to the amount you drive (i.e. to the gas
+you consume). Also assume that “Low” income consumers bear all
+environmental costs. For a range of gas taxes (ranging from $0 - $5.00/gal),
+calculate the effects of the tax on:
+
+a: Overall welfare of “High” income consumers
+```{r}
+
+
+
+
+
+
+```
+
+b: Overall welfare of “Low” income consumers
+
+```{r}
+
+
+
+
+
+
+```
+
+c: Gas producers
+
+```{r}
+
+
+
+
+
+
+
+```
+
+6. Using these numbers, which has a bigger impact on environmental quality, a
+$2.00/gal. gas tax or the invention of electric cars? Provide your evidence.
+
+```{r}
+
+
+
+
+
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
