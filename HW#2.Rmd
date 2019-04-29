@@ -166,7 +166,13 @@ p_agg_ps
 
 g) Environmental cost
 ```{r}
+# mec = 2
 
+tec_base<- 267217.062558
+tec_height<- 2
+tec<- tec_base*tec_height
+tec
+# total environmental cost = 534434.1
 ```
 
 
