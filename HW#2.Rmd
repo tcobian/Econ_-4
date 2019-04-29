@@ -229,17 +229,75 @@ Question 3: Gas tax
 
 a) New quantity of gas
 ```{r}
+# make a new supply cnurve with the 0.5 tax
+supply_curve_tax<- function(x){supply*x+0.5}
+
+# graph the new supply to see what it looks like
+
+graph_tax<- ggplot(data.frame(x = c(70000:500000)), aes(x=x))+
+  stat_function(fun = demand_low, color = "darkblue")+
+  stat_function(fun = demand_high, color = "darkorange")+
+  stat_function(fun = demand_agg, color = "darkgreen")+
+  stat_function(fun = supply_curve_tax, color = "pink")+
+  stat_function(fun = mec, color = "darkred")+
+  xlab("\nQuantity")+
+  ylab("Price\n")+
+  ggtitle("Intial Gas Market \n")+
+  scale_y_continuous(limits = c(0,25), expand = c(0,0))+
+  scale_x_continuous(limits = c(0,500000), expand = c(0,0))
+
+graph_tax
+
+# looks correct (supply shifted up by 0.5)
+
+# find the new equilibrium with the new supply curve
+
+q_opt<- uniroot(function(x) demand_agg(x) - supply_curve_tax(x), range(x))$root
+q_opt
+
+# New equilibrium qunatity = 261333
+
+p_opt<- supply_curve_tax(q_opt)
+p_opt
+
+# new equilibrium price = 5.3899
+
+# Q_tax = 261333
+# P_tax = 5.3899
+
 
 ```
 
 b) New gas price
 ```{r}
+p_opt<- supply_curve_tax(q_opt)
+p_opt
 
+# new equilibrium price = 5.3899
 ```
 
 
 c) New high consumer benefit
 ```{r}
+#5.3899 = -0.0001296638(Q) + 23.39144
+# Q = 138836.495
+
+demand_high3<- function(x){alpha_high+beta_high*x - 5.3899}
+
+demandint_high_tax <- integrate(demand_high3, 0, 138836.495)
+demandint_high_tax
+
+# geometric
+
+demand_high(0)
+# y - int = 23.39144
+
+demand_high_base_tax<- 23.39144 - 5.3899
+demand_high_height_tax<- 138836.495
+demand_high_cs_tax<- (1/2)*demand_high_height_tax*demand_high_base_tax
+demand_high_cs_tax
+
+# CS for high demand with the new tax = 1249635
 
 ```
 
