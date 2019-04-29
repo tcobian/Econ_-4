@@ -339,6 +339,13 @@ ps_tax
 f) Total envr damage
 ```{r}
 
+mec_base_tax<- 261333
+mec_height_tax<- 2
+tec_tax<- mec_height_tax*mec_base_tax
+tec_tax
+
+# Total environmental cost under the new tax = 522666
+
 ```
 
 g) Total tax revenue 
