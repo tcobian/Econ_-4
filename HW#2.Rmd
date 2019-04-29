@@ -318,12 +318,21 @@ demand_low_cs_tax
 
 # CS for low demand users with the new tax = 989249.3
 
-
-
 ```
 
 e) New producer benefit
 ```{r}
+# geometric 
+
+supply_curve_tax(0)
+# y - int = 0.5
+
+supply_tax_base<- 5.3899-0.5
+supply_tax_height<- 261333
+ps_tax<- (1/2)*supply_tax_base*supply_tax_height
+ps_tax
+
+# PS under the new tax = 638946.1
 
 ```
 
