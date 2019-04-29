@@ -147,6 +147,20 @@ agg_cs <- (1/2)*agg_base*agg_height #2365754.1560 WOOOOOO THEYRE EQUAL
 
 f) Producer surplus
 ```{r}
+# Equilibrium demand_agg = supply_curve
+# P = 5
+# Q = 267217.062558
+
+supply_curve(0) # = 0
+
+# geometric PS
+
+p_agg_hight<- 5
+p_agg_base<- 267217.062558
+p_agg_ps<- (1/2)*p_agg_hight*p_agg_base
+p_agg_ps
+
+# aggregate PS = 668042.7
 
 ```
 
