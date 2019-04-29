@@ -377,7 +377,7 @@ supply_tax_new<- function(x){tax_amount + supply_curve*x}
 # set price at the initial equilibrium of $5
 tax_seq<- 5
 # quantity with the tax
-q_tax_new<-
+q_tax_new<- 
 
 
 
