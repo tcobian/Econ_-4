@@ -303,6 +303,22 @@ demand_high_cs_tax
 
 d) New low consumer benefit
 ```{r}
+#5.3899 = -0.0001355174(Q) + 21.99085
+# Q = 119,179.846
+
+# geometric 
+
+demand_low(0)
+# y - int = 21.99085
+
+demand_low_base_tax<- 21.99085 - 5.3899
+demand_low_height_tax<- 119179.846
+demand_low_cs_tax<- (1/2)*demand_low_base_tax*demand_low_height_tax
+demand_low_cs_tax
+
+# CS for low demand users with the new tax = 989249.3
+
+
 
 ```
 
