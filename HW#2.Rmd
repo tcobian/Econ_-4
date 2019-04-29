@@ -350,6 +350,14 @@ tec_tax
 
 g) Total tax revenue 
 ```{r}
+# the length of the tax revenue rectanlge will just be the optinaml Q with the tax
+# the height of the taxx revenue will be the difference between the optimal price before and after the tax
+tax_rev_base<- 261333
+tax_rev_height<- 5.3899 - 5
+tax_rev<- tax_rev_height*tax_rev_base
+tax_rev
+
+# the revenue from the tax =  101893.7
 
 ```
 
