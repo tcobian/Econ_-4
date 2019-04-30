@@ -200,7 +200,7 @@ demandint_low #1065137
 low_height <- 21.99085 - 5
 low_base <- 125377.626784
 low_cs <- (1/2)*low_base*low_height #1065136 
-p_agg2
+
 #Low demand benefit = 1065136
 
 ```
@@ -450,7 +450,7 @@ graph_tax_dif
 
 ```
 
-B. Overall wellfare of high demand consumers
+B. High demand consumer surplus
 ```{r}
 # Overall welfare of high demand = high demand consumer surplus
 
@@ -473,11 +473,11 @@ high_CS_2.5 <- (1/2)*high_base_2.5*high_height_2.5
 high_CS_2.5 #High demand CS = 1042488
 
 #Tax of $5
-high_eq_5<- uniroot(function(x) demand_high(x) - 8.898776 , range(x))$root
-high_eq_5 # q = 111771.1
+high_eq_5<- uniroot(function(x) demand_low(x) - 8.898776 , range(x))$root
+high_eq_5 # q = 96608.09
 
-high_base_5 <- 111771.1
-high_height_5 <- demand_high(0) - demand_high(111771.1)
+high_base_5 <- 96608.09
+high_height_5 <- demand_high(0) - demand_high(96608.09)
 high_CS_5 <- (1/2)*high_base_5*high_height_5
 high_CS_5 #High demand CS = 809930.5
 
@@ -498,48 +498,51 @@ B. Overall wellfare of low demand consumers
 
 
 #Tax of $1
-high_eq_1<- uniroot(function(x) demand_high(x) - 5.779527 , range(x))$root
-high_eq_1 # q = 135827.6
+low_eq_1<- uniroot(function(x) demand_low(x) - 5.779527 , range(x))$root
+low_eq_1 # q = 119625.4
 
-high_base_1 <- 135827.6
-high_height_1 <- demand_high(0) - demand_high(135827.6)
-high_CS_1 <- (1/2)*high_base_1*high_height_1
-high_CS_1 #High demand CS = 1196092
+low_base_1 <- 119625.4
+low_height_1 <- demand_low(0) - demand_low(119625.4)
+low_CS_1 <- (1/2)*low_base_1*low_height_1
+low_CS_1 #Low demand CS = 969643.1
 
 #Tax of $2.5
-high_eq_2.5<- uniroot(function(x) demand_high(x) - 6.949245 , range(x))$root
-high_eq_2.5 # q = 126806.4
+low_eq_2.5<- uniroot(function(x) demand_low(x) - 6.949245 , range(x))$root
+low_eq_2.5 # q = 110993.9
 
-high_base_2.5 <- 126806.4
-high_height_2.5 <- demand_high(0) - demand_high(126806.4)
-high_CS_2.5 <- (1/2)*high_base_2.5*high_height_2.5
-high_CS_2.5 #High demand CS = 1042488
+low_base_2.5 <- 110993.9
+low_height_2.5 <- demand_low(0) - demand_low(110993.9)
+low_CS_2.5 <- (1/2)*low_base_2.5*low_height_2.5
+low_CS_2.5 #Low demand CS = 834763.2
 
 #Tax of $5
-high_eq_5<- uniroot(function(x) demand_high(x) - 8.898776 , range(x))$root
-high_eq_5 # q = 111771.1
+low_eq_5<- uniroot(function(x) demand_low(x) - 8.898776 , range(x))$root
+low_eq_5 # q = 96608.09
 
-high_base_5 <- 111771.1
-high_height_5 <- demand_high(0) - demand_high(111771.1)
-high_CS_5 <- (1/2)*high_base_5*high_height_5
-high_CS_5 #High demand CS = 809930.5
-
-
-
-
-
-
-
-
-
-
+low_base_5 <- 96608.09
+low_height_5 <- demand_low(0) - demand_low(96608.09)
+low_CS_5 <- (1/2)*low_base_5*low_height_5
+low_CS_5 #High demand CS = 632400.3
 
 # HIGH DEMAND CONSUMER SUMMARY:
-#(No tax  ): High demand welfare is $1304315
-#($0.5 Tax): High demand welfare is $1249635
-#($1 Tax  ): High demand welfare is $1196092
-#($2.5 Tax): High demand welfare is $1042488
-#($5 Tax  ): High demand welfare is  $809930
+#(No tax  ): High demand welfare is $1065136 
+#($0.5 Tax): High demand welfare is $989249.3
+#($1 Tax  ): High demand welfare is $969643.1
+#($2.5 Tax): High demand welfare is $834763.2
+#($5 Tax  ): High demand welfare is $632400.3
+
+```
+
+C. 
+```{r}
+
+
+
+
+
+
+
+
 
 ```
 
