@@ -199,7 +199,7 @@ demandint_low #1065137
 low_height <- 21.99085 - 5
 low_base <- 125377.626784
 low_cs <- (1/2)*low_base*low_height #1065136 
-
+p_agg2
 #Low demand benefit = 1065136
 
 ```
@@ -374,12 +374,41 @@ calculate the effects of the tax on:
 ```{r}
 # set up the problem
 
-tax_amount<- seq(0.25,0.5, by = 0.25)
+aggfxn_org <- function(Q){-0.00006626299*Q + 22.70661}
+suppfxn_org <- function(Q){0.00001871*Q}
+
+taxfxn_0.5 <- function(Q){0.00001871*Q + 1}
+taxfxn_1 <-  function(Q){0.00001871*Q + 1}
+taxfxn_2.5 <- function(Q){0.00001871*Q + 2.5}
+taxfxn_5 <- function(Q){0.00001871*Q + 5}
+
+
+eq_org <- uniroot(function(x) aggfxn_org(x) - suppfxn2_taxes(x), range(x))$root
+eq_org
+
+eq_0.5 <- uniroot(function(x) aggfxn_org(x) - suppfxn2_taxes(x), range(x))$root
+eq_0.5
+
+eq_1 <- uniroot(function(x) aggfxn_org(x) - suppfxn2_taxes(x), range(x))$root
+eq_1
+
+eq_2.5 <- uniroot(function(x) aggfxn_org(x) - suppfxn2_taxes(x), range(x))$root
+eq_2.5
+
+eq_5 <- uniroot(function(x) aggfxn_org(x) - suppfxn2_taxes(x), range(x))$root
+eq_5
+
+
+
 # add this to the supply curve
-supply_tax_new<- function(x){tax_amount + supply_curve*x}
+supply_tax_new<- function(x){x + supply_curve*Q}
 # set price at the initial equilibrium of $5
 tax_seq<- 5
+
+supply_tax_curves <- supply_tax_new(tax_amount)
+
 # quantity with the tax
+tax_fxn<- function(x){alpha_low+beta_low*x - 5}
  ############################
 # setting tax at 2
 ##########################
