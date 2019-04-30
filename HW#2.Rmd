@@ -92,6 +92,9 @@ supply_curve<- function(x){supply*x}
 
 # marginal external cost curve
 mec<- function(x){2 + 0*x}
+
+agg_intercept<- (alpha_high/beta_high)+(alpha_low/beta_low)
+agg_slope<- abs((-1/beta_high) + (-1/beta_low))
 ```
 
 d) Demand curve graphs
@@ -377,30 +380,42 @@ supply_tax_new<- function(x){tax_amount + supply_curve*x}
 # set price at the initial equilibrium of $5
 tax_seq<- 5
 # quantity with the tax
-q_tax_new<- 
+ ############################
+# setting tax at 2
+##########################
+supply_tax_2<- function(x){supply*x +2}
 
+# consumer surplus for high consumers
+tax_base_cs_high_2<- uniroot(function(x) demand_high(x) - supply_tax_2(x), range(x))$root
+tax_height_cs_high_2<- alpha_high - demand_high(tax_base_cs_high_2)
 
-
-
+tax_cs_area_high_2<- 0.5*tax_base_cs_high_2*tax_height_cs_high_2
+tax_cs_area_high_2
+# consumer surplus for high users for new tax = 1347555
 ```
 
 a: Overall welfare of “High” income consumers
 ```{r}
+# consumer surplus for high consumers
+tax_base_cs_high_2<- uniroot(function(x) demand_high(x) - supply_tax_2(x), range(x))$root
+tax_height_cs_high_2<- alpha_high - demand_high(tax_base_cs_high_2)
 
-
-
-
-
+tax_cs_area_high_2<- 0.5*tax_base_cs_high_2*tax_height_cs_high_2
+tax_cs_area_high_2
+# consumer surplus for high users for new tax = 1347555
 
 ```
 
 b: Overall welfare of “Low” income consumers
 
 ```{r}
+tax_base_cs_low_2<- uniroot(function(x) demand_low(x) - supply_tax_2(x), range(x))$root
 
+tax_height_cs_low_2<- alpha_low - demand_low(tax_base_cs_high_2)
 
-
-
+tax_cs_area_low_2<- 0.5*tax_base_cs_low_2*tax_height_cs_low_2
+tax_cs_area_low_2
+# consumer surplur for low demand group after tax = 1266222
 
 
 ```
