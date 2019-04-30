@@ -1,0 +1,512 @@
+---
+title: "HW2"
+author: "Tara Jagadeesh"
+date: "4/30/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, include=FALSE}
+library(tidyverse)
+data<- read_csv("HW_#2.csv")
+
+```
+
+Question 1.
+
+a) Make a plot for the demand curves
+```{r}
+demand_1<- ggplot(data, aes(x = Q_Low_Gallons_per_Day, y = Price_Dollars))+
+  geom_point() +
+  stat_smooth(method = "lm")
+demand_1
+
+demand_2<- ggplot(data, aes(x = Q_High_Gallons_per_Day, y = Price_Dollars))+
+  geom_point() +
+  stat_smooth(method = "lm")
+demand_2
+```
+
+b) Linear model of the demand curves
+```{r}
+demand_low_lm<- lm(data$Price_Dollars ~ data$Q_Low_Gallons_per_Day)
+plot(demand_low_lm)
+summary(demand_low_lm)
+
+demand_high_lm<- lm(data$Price_Dollars ~ data$Q_High_Gallons_per_Day)
+plot(demand_high_lm)
+summary(demand_high_lm)
+
+# Low demand coefficients
+#P = -0.0001355174(Q) + 21.99085
+alpha_low <- demand_low_lm[["coefficients"]][["(Intercept)"]]
+beta_low <- demand_low_lm[["coefficients"]][["data$Q_Low_Gallons_per_Day"]]
+# p = beta(q) + alpha
+
+# High demand coefficients
+#P = -0.0001296638(Q) + 23.39144
+alpha_high <- demand_high_lm[["coefficients"]][["(Intercept)"]]
+beta_high <- demand_high_lm[["coefficients"]][["data$Q_High_Gallons_per_Day"]]
+# p = beta(q) + alpha
+
+#Equation for low demand group
+Q_low1<- (1/beta_low)
+Q_low2<- (alpha_low/-beta_low)
+# Q_low = Q_low1*P + Q_low2
+
+
+#Equation for high demand group
+Q_high1<- (1/beta_high)
+Q_high2<- (alpha_high/-beta_high)
+# Q_high = Q_high1*P + Q_high2
+
+Q_agg1<- Q_low1+Q_high1 # aggreagte low demand
+Q_agg2<- Q_low2+Q_high2 # aggregate high demand
+
+P_agg1<- 1/Q_agg1 # price for low demand
+P_agg2<- -Q_agg2/Q_agg1 # price for high demand
+
+# Supply curve
+supply<- 5/((5-P_agg2)/P_agg1)
+supply
+# equation of supply  P = 0.00001871
+```
+
+
+c) Demand curve functions
+```{r}
+#low demand curve
+demand_low<- function(x){alpha_low+beta_low*x}
+
+# high demand curve
+demand_high<- function(x){alpha_high+beta_high*x}
+
+# aggregate demand curve
+demand_agg<- function(x){P_agg2+P_agg1*x}
+
+# Supply curve
+supply_curve<- function(x){supply*x}
+
+# marginal external cost curve
+mec<- function(x){2 + 0*x}
+
+# agregate equation
+agg_intercept<- (alpha_high/beta_high)+(alpha_low/beta_low)
+agg_slope<- abs((-1/beta_high) + (-1/beta_low))
+```
+
+d) Demand curve graphs
+```{r}
+# optimum point on th graph
+
+opt<- data.frame(x = c(0:267176.2), y = c(5))
+x<- 70000:500000
+
+graph_1<- ggplot(data.frame(x = c(70000:500000)), aes(x=x))+
+  stat_function(fun = demand_low, color = "darkblue")+
+  stat_function(fun = demand_high, color = "darkorange")+
+  stat_function(fun = demand_agg, color = "darkgreen")+
+  stat_function(fun = supply_curve, color = "pink")+
+  stat_function(fun = mec, color = "darkred")+
+  xlab("\nQuantity")+
+  ylab("Price\n")+
+  ggtitle("Intial Gas Market \n")+
+  scale_y_continuous(limits = c(0,25), expand = c(0,0))+
+  scale_x_continuous(limits = c(0,500000), expand = c(0,0))
+
+graph_1
+
+
+```
+
+e) Aggregate consumer benefit
+```{r}
+#Equilibrium pt: demand_agg = supply_curve
+#P = 5
+#Q = 267217.062558
+
+#Y intercept of agg demand
+demand_agg(0) #22.70661
+
+#Create a function for agg demand at the equilibrium point
+demand_agg2<- function(x){P_agg2+P_agg1*x - 5}
+
+#Find the area under the curve via integrating
+agg_cs <- integrate(demand_agg2, 0, 267217.062558)
+agg_cs #2365754
+
+#Double check the area using shapes
+agg_height <- 22.70661 - 5
+agg_base <- 267217.062558
+agg_cs <- (1/2)*agg_base*agg_height #2365754.1560 WOOOOOO THEYRE EQUAL 
+
+#Aggregate consumer surplus  = 2365754.1560
+
+
+##wait do we have to account for the kink??? 
+```
+
+f) Producer surplus
+```{r}
+# Equilibrium demand_agg = supply_curve
+# P = 5
+# Q = 267217.062558
+
+supply_curve(0) # = 0
+
+# geometric PS
+
+p_agg_hight<- 5
+p_agg_base<- 267217.062558
+p_agg_ps<- (1/2)*p_agg_hight*p_agg_base
+p_agg_ps
+
+# aggregate PS = 668042.7
+
+```
+
+g) Environmental cost
+```{r}
+# mec = 2
+
+tec_base<- 267217.062558
+tec_height<- 2
+tec<- tec_base*tec_height
+tec
+# total environmental cost = 534434.1
+```
+
+
+Question 2: Distribution of benefits
+
+a) Low demand consumer benefit at P = 5
+```{r}
+#5 = -0.0001355174(Q) + 21.99085
+#Q = 125377.626784
+
+demand_low(125377.626784)
+
+#Create a function for low demand at the current price
+demand_low2<- function(x){alpha_low+beta_low*x - 5}
+
+#Find the area under the curve via integrating
+demandint_low <- integrate(demand_low2, 0, 125377.626784)
+demandint_low #1065137
+
+#Double check the area using shapes
+low_height <- 21.99085 - 5
+low_base <- 125377.626784
+low_cs <- (1/2)*low_base*low_height #1065136 
+p_agg2
+#Low demand benefit = 1065136
+
+```
+
+b) High demand consumer benefit at P = 5
+```{r}
+#5 = -0.0001296638(Q) + 23.39144
+#Q = 141839.433982
+
+demand_high(141839.433982)
+
+#Create a function for low demand at the current price
+demand_high2<- function(x){alpha_high+beta_high*x - 5}
+
+#Find the area under the curve via integrating
+demandint_high <- integrate(demand_high2, 0, 141839.433982)
+demandint_high #1304316
+
+#Double check the area using shapes
+high_height <- 23.39144 - 5
+high_base <- 141839.433982
+high_cs <- (1/2)*high_base*high_height #1304315.7199
+
+#High demand benefit = 1304315.7199
+
+```
+
+
+Question 3: Gas tax
+
+a) New quantity of gas
+```{r}
+# make a new supply cnurve with the 0.5 tax
+supply_curve_tax<- function(x){supply*x+0.5}
+
+# graph the new supply to see what it looks like
+
+graph_tax<- ggplot(data.frame(x = c(70000:500000)), aes(x=x))+
+  stat_function(fun = demand_low, color = "darkblue")+
+  stat_function(fun = demand_high, color = "darkorange")+
+  stat_function(fun = demand_agg, color = "darkgreen")+
+  stat_function(fun = supply_curve_tax, color = "pink")+
+  stat_function(fun = mec, color = "darkred")+
+  xlab("\nQuantity")+
+  ylab("Price\n")+
+  ggtitle("Intial Gas Market \n")+
+  scale_y_continuous(limits = c(0,25), expand = c(0,0))+
+  scale_x_continuous(limits = c(0,500000), expand = c(0,0))
+
+graph_tax
+
+# looks correct (supply shifted up by 0.5)
+
+# find the new equilibrium with the new supply curve
+
+q_opt<- uniroot(function(x) demand_agg(x) - supply_curve_tax(x), range(x))$root
+q_opt
+
+# New equilibrium qunatity = 261333
+
+p_opt<- supply_curve_tax(q_opt)
+p_opt
+
+# new equilibrium price = 5.3899
+
+# Q_tax = 261333
+# P_tax = 5.3899
+
+
+```
+
+b) New gas price
+```{r}
+p_opt<- supply_curve_tax(q_opt)
+p_opt
+
+# new equilibrium price = 5.3899
+```
+
+
+c) New high consumer benefit
+```{r}
+#5.3899 = -0.0001296638(Q) + 23.39144
+# Q = 138836.495
+
+demand_high3<- function(x){alpha_high+beta_high*x - 5.3899}
+
+demandint_high_tax <- integrate(demand_high3, 0, 138836.495)
+demandint_high_tax
+
+# geometric
+
+demand_high(0)
+# y - int = 23.39144
+
+demand_high_base_tax<- 23.39144 - 5.3899
+demand_high_height_tax<- 138836.495
+demand_high_cs_tax<- (1/2)*demand_high_height_tax*demand_high_base_tax
+demand_high_cs_tax
+
+# CS for high demand with the new tax = 1249635
+
+```
+
+d) New low consumer benefit
+```{r}
+#5.3899 = -0.0001355174(Q) + 21.99085
+# Q = 119,179.846
+
+# geometric 
+
+demand_low(0)
+# y - int = 21.99085
+
+demand_low_base_tax<- 21.99085 - 5.3899
+demand_low_height_tax<- 119179.846
+demand_low_cs_tax<- (1/2)*demand_low_base_tax*demand_low_height_tax
+demand_low_cs_tax
+
+# CS for low demand users with the new tax = 989249.3
+
+```
+
+e) New producer benefit
+```{r}
+# geometric 
+
+supply_curve_tax(0)
+# y - int = 0.5
+
+supply_tax_base<- 5.3899-0.5
+supply_tax_height<- 261333
+ps_tax<- (1/2)*supply_tax_base*supply_tax_height
+ps_tax
+
+# PS under the new tax = 638946.1
+
+```
+
+f) Total envr damage
+```{r}
+
+mec_base_tax<- 261333
+mec_height_tax<- 2
+tec_tax<- mec_height_tax*mec_base_tax
+tec_tax
+
+# Total environmental cost under the new tax = 522666
+
+```
+
+g) Total tax revenue 
+```{r}
+# the length of the tax revenue rectanlge will just be the optinaml Q with the tax
+# the height of the taxx revenue will be the difference between the optimal price before and after the tax
+tax_rev_base<- 261333
+tax_rev_height<- 5.3899 - 5
+tax_rev<- tax_rev_height*tax_rev_base
+tax_rev
+
+# the revenue from the tax =  101893.7
+
+```
+
+4. Now, assume that all revenue from a tax will be used for infrastructure repairs,
+and that the benefit of this is proportional to the amount you drive (i.e. to the gas
+you consume). Also assume that “Low” income consumers bear all
+environmental costs. For a range of gas taxes (ranging from $0 - $5.00/gal),
+calculate the effects of the tax on:
+
+
+```{r}
+# set up the problem
+
+aggfxn_org <- function(Q){-0.00006626299*Q + 22.70661}
+suppfxn_org <- function(Q){0.00001871*Q}
+
+taxfxn_0.5 <- function(Q){0.00001871*Q + 1}
+taxfxn_1 <-  function(Q){0.00001871*Q + 1}
+taxfxn_2.5 <- function(Q){0.00001871*Q + 2.5}
+taxfxn_5 <- function(Q){0.00001871*Q + 5}
+
+
+eq_org <- uniroot(function(x) aggfxn_org(x) - suppfxn2_taxes(x), range(x))$root
+eq_org
+
+eq_0.5 <- uniroot(function(x) aggfxn_org(x) - suppfxn2_taxes(x), range(x))$root
+eq_0.5
+
+eq_1 <- uniroot(function(x) aggfxn_org(x) - suppfxn2_taxes(x), range(x))$root
+eq_1
+
+eq_2.5 <- uniroot(function(x) aggfxn_org(x) - suppfxn2_taxes(x), range(x))$root
+eq_2.5
+
+eq_5 <- uniroot(function(x) aggfxn_org(x) - suppfxn2_taxes(x), range(x))$root
+eq_5
+
+
+
+# add this to the supply curve
+supply_tax_new<- function(x){x + supply_curve*Q}
+# set price at the initial equilibrium of $5
+tax_seq<- 5
+
+<<<<<<< HEAD
+supply_tax_curves <- supply_tax_new(tax_amount)
+=======
+# quantity with the tax:
+
+>>>>>>> b497923d1211e7b8df59eb62f170fc18450c25da
+
+# quantity with the tax
+tax_fxn<- function(x){alpha_low+beta_low*x - 5}
+ ############################
+# setting tax at 2
+##########################
+supply_tax_2<- function(x){supply*x + 2}
+
+# graph for the new 2$ tax to visualize
+graph_tax_2<- ggplot(data.frame(x = c(70000:500000)), aes(x=x))+
+  stat_function(fun = demand_low, color = "darkblue")+
+  stat_function(fun = demand_high, color = "darkorange")+
+  stat_function(fun = demand_agg, color = "darkgreen")+
+  stat_function(fun = supply_tax_2, color = "pink")+
+  stat_function(fun = mec, color = "darkred")+
+  xlab("\nQuantity")+
+  ylab("Price\n")+
+  ggtitle("Intial Gas Market \n")+
+  scale_y_continuous(limits = c(0,25), expand = c(0,0))+
+  scale_x_continuous(limits = c(0,500000), expand = c(0,0))
+graph_tax_2
+```
+
+a: Overall welfare of “High” income consumers
+```{r}
+# consumer surplus for high consumers
+tax_base_cs_high_2<- uniroot(function(x) demand_high(x) - supply_tax_2(x), range(x))$root
+tax_height_cs_high_2<- alpha_high - demand_high(tax_base_cs_high_2)
+
+tax_cs_area_high_2<- 0.5*tax_base_cs_high_2*tax_height_cs_high_2
+tax_cs_area_high_2
+# consumer surplus for high users for new tax = 1347555
+
+```
+
+b: Overall welfare of “Low” income consumers
+
+```{r}
+tax_base_cs_low_2<- uniroot(function(x) demand_low(x) - supply_tax_2(x), range(x))$root
+
+tax_height_cs_low_2<- alpha_low - demand_low(tax_base_cs_high_2)
+
+tax_cs_area_low_2<- 0.5*tax_base_cs_low_2*tax_height_cs_low_2
+tax_cs_area_low_2
+# consumer surplus for low demand group after tax = 1266222
+
+
+```
+
+c: Gas producers
+
+```{r}
+ps_low_tax_2<- 0.5*tax_base_cs_low_2*demand_low(tax_base_cs_low_2)
+ps_low_tax_2
+# producer surplus under the new 2 dollar tax for the low demand =  286801.9
+
+ps_high_tax_2<- 0.5*tax_base_cs_high_2*demand_high(tax_base_cs_high_2)
+ps_high_tax_2
+# producer surplus under the new 2 dollar tax for the high demand = 338632.8
+
+# aggregate demand producer surplus under the tax
+ps_agg_tax_2<- ps_low_tax_2 + ps_high_tax_2
+```
+
+6. Using these numbers, which has a bigger impact on environmental quality, a
+$2.00/gal. gas tax or the invention of electric cars? Provide your evidence.
+
+```{r}
+
+
+
+
+
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
