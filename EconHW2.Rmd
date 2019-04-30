@@ -387,40 +387,42 @@ taxfxn_5 <- function(Q){0.00001871*Q + 5}
 eq_org <- uniroot(function(x) aggfxn_org(x) - suppfxn_org(x), range(x))$root
 eq_org
 #  q =  267221.5
-
 eq_0.5 <- uniroot(function(x) aggfxn_org(x) - taxfxn_0.5(x), range(x))$root
 eq_0.5
 # q = 261337.3
-
 eq_1 <- uniroot(function(x) aggfxn_org(x) - taxfxn_1(x), range(x))$root
 eq_1
 # q = 255453.1
-
 eq_2.5 <- uniroot(function(x) aggfxn_org(x) - taxfxn_2.5(x), range(x))$root
 eq_2.5
 # q = 237800.4
-
 eq_5 <- uniroot(function(x) aggfxn_org(x) - taxfxn_5(x), range(x))$root
 eq_5
 # q = 208379.3
 
-# Price at each tax level
+
+# Market price at each tax level
 aggfxn_org(eq_org) # p = 4.999714
 taxfxn_0.5(eq_0.5) # p = 5.38962
+
 taxfxn_1(eq_1) # p = 5.779527
 taxfxn_2.5(eq_2.5) # p = 6.949245
 taxfxn_5(eq_5) # p = 8.898776
 
-# Qs to use for finding  surpluses
-high_eq_1<- uniroot(function(x) demand_high(x) - 5.779527 , range(x))$root
-high_eq_1
-# q = 135827.6
-high_eq_2.5<- uniroot(function(x) demand_high(x) - 6.949245 , range(x))$root
-high_eq_2.5
-# q = 126806.4
-high_eq_5<- uniroot(function(x) demand_high(x) - 8.898776 , range(x))$root
-high_eq_2.5
-# q = 126806.4
+
+
+
+#Low consumer surplus
+low_eq_1<- uniroot(function(x) demand_low(x) - 5.779527 , range(x))$root
+low_eq_1
+# q = 119625.4
+low_eq_2.5<- uniroot(function(x) demand_low(x) - 6.949245 , range(x))$root
+low_eq_2.5
+# q = 110993.9
+low_eq_5<- uniroot(function(x) demand_low(x) - 8.898776 , range(x))$root
+low_eq_5
+# q = 96608.09
+
 
 
 graph_tax_dif<- ggplot(data.frame(x = c(70000:500000)), aes(x=x))+
@@ -447,25 +449,99 @@ graph_tax_dif
 
 
 ```
-a. overall wellfare of high demand consumers
 
+B. Overall wellfare of high demand consumers
 ```{r}
-base_cs_high_1<- 
-height_cs_high_1<- demand_high(0) - demand_high(255453.1)
-cs_high_1<- (1/2)*base_cs_high_1*height_cs_high_1
-cs_high_1
-# 4230688
+# Overall welfare of high demand = high demand consumer surplus
 
+#Tax of $1
+high_eq_1<- uniroot(function(x) demand_high(x) - 5.779527 , range(x))$root
+high_eq_1 # q = 135827.6
 
+high_base_1 <- 135827.6
+high_height_1 <- demand_high(0) - demand_high(135827.6)
+high_CS_1 <- (1/2)*high_base_1*high_height_1
+high_CS_1 #High demand CS = 1196092
 
+#Tax of $2.5
+high_eq_2.5<- uniroot(function(x) demand_high(x) - 6.949245 , range(x))$root
+high_eq_2.5 # q = 126806.4
 
+high_base_2.5 <- 126806.4
+high_height_2.5 <- demand_high(0) - demand_high(126806.4)
+high_CS_2.5 <- (1/2)*high_base_2.5*high_height_2.5
+high_CS_2.5 #High demand CS = 1042488
 
+#Tax of $5
+high_eq_5<- uniroot(function(x) demand_high(x) - 8.898776 , range(x))$root
+high_eq_5 # q = 111771.1
 
+high_base_5 <- 111771.1
+high_height_5 <- demand_high(0) - demand_high(111771.1)
+high_CS_5 <- (1/2)*high_base_5*high_height_5
+high_CS_5 #High demand CS = 809930.5
+
+# HIGH DEMAND CONSUMER SUMMARY:
+#(No tax  ): High demand welfare is $1304315
+#($0.5 Tax): High demand welfare is $1249635
+#($1 Tax  ): High demand welfare is $1196092
+#($2.5 Tax): High demand welfare is $1042488
+#($5 Tax  ): High demand welfare is  $809930
 
 ```
 
+B. Overall wellfare of low demand consumers
+```{r}
+# Overall welfare of low demand = low demand consumer surplus - environmental costs
+
+#### ALERT: I just copy/pasted for now! Still have to change values below
 
 
+#Tax of $1
+high_eq_1<- uniroot(function(x) demand_high(x) - 5.779527 , range(x))$root
+high_eq_1 # q = 135827.6
+
+high_base_1 <- 135827.6
+high_height_1 <- demand_high(0) - demand_high(135827.6)
+high_CS_1 <- (1/2)*high_base_1*high_height_1
+high_CS_1 #High demand CS = 1196092
+
+#Tax of $2.5
+high_eq_2.5<- uniroot(function(x) demand_high(x) - 6.949245 , range(x))$root
+high_eq_2.5 # q = 126806.4
+
+high_base_2.5 <- 126806.4
+high_height_2.5 <- demand_high(0) - demand_high(126806.4)
+high_CS_2.5 <- (1/2)*high_base_2.5*high_height_2.5
+high_CS_2.5 #High demand CS = 1042488
+
+#Tax of $5
+high_eq_5<- uniroot(function(x) demand_high(x) - 8.898776 , range(x))$root
+high_eq_5 # q = 111771.1
+
+high_base_5 <- 111771.1
+high_height_5 <- demand_high(0) - demand_high(111771.1)
+high_CS_5 <- (1/2)*high_base_5*high_height_5
+high_CS_5 #High demand CS = 809930.5
+
+
+
+
+
+
+
+
+
+
+
+# HIGH DEMAND CONSUMER SUMMARY:
+#(No tax  ): High demand welfare is $1304315
+#($0.5 Tax): High demand welfare is $1249635
+#($1 Tax  ): High demand welfare is $1196092
+#($2.5 Tax): High demand welfare is $1042488
+#($5 Tax  ): High demand welfare is  $809930
+
+```
 
 
 
