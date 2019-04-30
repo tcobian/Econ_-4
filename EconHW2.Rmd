@@ -383,22 +383,36 @@ taxfxn_1 <-  function(Q){0.00001871*Q + 1}
 taxfxn_2.5 <- function(Q){0.00001871*Q + 2.5}
 taxfxn_5 <- function(Q){0.00001871*Q + 5}
 
-
-eq_org <- uniroot(function(x) aggfxn_org(x) - suppfxn2_taxes(x), range(x))$root
+# Quantity at each tax level
+eq_org <- uniroot(function(x) aggfxn_org(x) - suppfxn_org(x), range(x))$root
 eq_org
+#  q =  267221.5
 
-eq_0.5 <- uniroot(function(x) aggfxn_org(x) - suppfxn2_taxes(x), range(x))$root
+eq_0.5 <- uniroot(function(x) aggfxn_org(x) - taxfxn_0.5(x), range(x))$root
 eq_0.5
+# q = 255453.1
 
-eq_1 <- uniroot(function(x) aggfxn_org(x) - suppfxn2_taxes(x), range(x))$root
+eq_1 <- uniroot(function(x) aggfxn_org(x) - taxfxn_1(x), range(x))$root
 eq_1
+# q = 255453.1
 
-eq_2.5 <- uniroot(function(x) aggfxn_org(x) - suppfxn2_taxes(x), range(x))$root
+eq_2.5 <- uniroot(function(x) aggfxn_org(x) - taxfxn_2.5(x), range(x))$root
 eq_2.5
+# q = 237800.4
 
-eq_5 <- uniroot(function(x) aggfxn_org(x) - suppfxn2_taxes(x), range(x))$root
+eq_5 <- uniroot(function(x) aggfxn_org(x) - taxfxn_5(x), range(x))$root
 eq_5
+# q = 208379.3
 
+# Price at each tax level
+aggfxn_org(eq_org) # p = 4.999714
+taxfxn_0.5(eq_0.5) # p = 5.779527
+taxfxn_1(eq_1) # p = 5.779527
+taxfxn_2.5(eq_2.5) # p = 6.949245
+taxfxn_5(eq_5) # p = 8.898776
+
+
+```
 
 
 
