@@ -378,7 +378,7 @@ calculate the effects of the tax on:
 aggfxn_org <- function(Q){-0.00006626299*Q + 22.70661}
 suppfxn_org <- function(Q){0.00001871*Q}
 
-taxfxn_0.5 <- function(Q){0.00001871*Q + 1}
+taxfxn_0.5 <- function(Q){0.00001871*Q + 0.5}
 taxfxn_1 <-  function(Q){0.00001871*Q + 1}
 taxfxn_2.5 <- function(Q){0.00001871*Q + 2.5}
 taxfxn_5 <- function(Q){0.00001871*Q + 5}
@@ -390,7 +390,7 @@ eq_org
 
 eq_0.5 <- uniroot(function(x) aggfxn_org(x) - taxfxn_0.5(x), range(x))$root
 eq_0.5
-# q = 255453.1
+# q = 261337.3
 
 eq_1 <- uniroot(function(x) aggfxn_org(x) - taxfxn_1(x), range(x))$root
 eq_1
@@ -406,10 +406,60 @@ eq_5
 
 # Price at each tax level
 aggfxn_org(eq_org) # p = 4.999714
-taxfxn_0.5(eq_0.5) # p = 5.779527
+taxfxn_0.5(eq_0.5) # p = 5.38962
 taxfxn_1(eq_1) # p = 5.779527
 taxfxn_2.5(eq_2.5) # p = 6.949245
 taxfxn_5(eq_5) # p = 8.898776
+
+# Qs to use for finding  surpluses
+high_eq_1<- uniroot(function(x) demand_high(x) - 5.779527 , range(x))$root
+high_eq_1
+# q = 135827.6
+high_eq_2.5<- uniroot(function(x) demand_high(x) - 6.949245 , range(x))$root
+high_eq_2.5
+# q = 126806.4
+high_eq_5<- uniroot(function(x) demand_high(x) - 8.898776 , range(x))$root
+high_eq_2.5
+# q = 126806.4
+
+
+graph_tax_dif<- ggplot(data.frame(x = c(70000:500000)), aes(x=x))+
+  stat_function(fun = demand_low, color = "darkblue")+
+  stat_function(fun = demand_high, color = "darkorange")+
+  stat_function(fun = demand_agg, color = "darkgreen")+
+  stat_function(fun = supply_curve, color = "pink")+
+  stat_function(fun = taxfxn_1, color = "purple")+
+  stat_function(fun = taxfxn_2.5, color = "orange")+
+  stat_function(fun = taxfxn_5, color = "yellow")+
+  stat_function(fun = mec, color = "darkred")+
+  xlab("\nQuantity")+
+  ylab("Price\n")+
+  ggtitle("Intial Gas Market \n")+
+  scale_y_continuous(limits = c(0,25), expand = c(0,0))+
+  scale_x_continuous(limits = c(0,500000), expand = c(0,0))
+
+graph_tax_dif
+
+
+
+
+
+
+
+```
+a. overall wellfare of high demand consumers
+
+```{r}
+base_cs_high_1<- 
+height_cs_high_1<- demand_high(0) - demand_high(255453.1)
+cs_high_1<- (1/2)*base_cs_high_1*height_cs_high_1
+cs_high_1
+# 4230688
+
+
+
+
+
 
 
 ```
