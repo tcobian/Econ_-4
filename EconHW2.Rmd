@@ -637,14 +637,31 @@ highdemand_new(2.499854) # q = 11.6954
 
 #environmental damage 
 new_env_cost<- mec(133610.8)
-new_env_cost # 267221.6
+new_env_cost # 
 
 ```
 
-Gas consumption by “High” income consumers
-b. Gas consumption by “Low” income consumers
-c. Gas price
-d. Environmental damage from gasoline
+Comparing enviromnetal damage with a 2$ tax and the reduced demand
+```{r}
+
+# environmental damage under a 2$ tax
+eq_2 <- uniroot(function(x) aggfxn_org(x) - taxfxn_2(x), range(x))$root
+eq_2 
+# q = 243684.6
+
+taxfxn_2 <- function(Q){0.00001871*Q + 2}
+
+taxfxn_2(eq_2) # p = 6.559339
+
+mec(243684.6) # environmnetal cost for 2$ tax= 487369.2 
+
+mec(133610.8) # environmental cost under the hybrid scenario = 267221.6
+
+
+
+
+```
+
 
 
 
