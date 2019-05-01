@@ -593,6 +593,35 @@ ps_5
 ```
 
 
+5. Lowered demand curves
+```{r}
+#New low demand curve
+lowdemand_new <- function(Q){-0.0001355174*Q + 21.99085/2}
+#New low demand curve
+highdemand_new <- function(Q){-0.0001296638*Q + 23.39144/2}
+#New agg demand curve
+aggdemand_new <- function(Q){-0.00006626299*Q + 22.70661/2}
+
+new_graph <- ggplot(data.frame(x = c(70000:500000)), aes(x=x))+
+  stat_function(fun = lowdemand_new, color = "darkblue")+
+  stat_function(fun = highdemand_new, color = "darkorange")+
+  stat_function(fun = aggdemand_new, color = "darkgreen")+
+  stat_function(fun = supply_curve, color = "pink")+
+  stat_function(fun = mec, color = "darkred")+
+  xlab("\nQuantity")+
+  ylab("Price\n")+
+  ggtitle("Intial Gas Market \n")+
+  scale_y_continuous(limits = c(0,25), expand = c(0,0))+
+  scale_x_continuous(limits = c(0,500000), expand = c(0,0))
+new_graph
+
+
+```
+
+Gas consumption by “High” income consumers
+b. Gas consumption by “Low” income consumers
+c. Gas price
+d. Environmental damage from gasoline
 
 
 
