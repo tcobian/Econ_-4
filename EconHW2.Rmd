@@ -524,7 +524,7 @@ low_height_5 <- demand_low(0) - demand_low(96608.09)
 low_CS_5 <- (1/2)*low_base_5*low_height_5
 low_CS_5 #High demand CS = 632400.3
 
-# HIGH DEMAND CONSUMER SUMMARY:
+# LOW DEMAND CONSUMER SUMMARY:
 #(No tax  ): High demand welfare is $1065136 
 #($0.5 Tax): High demand welfare is $989249.3
 #($1 Tax  ): High demand welfare is $969643.1
@@ -533,15 +533,49 @@ low_CS_5 #High demand CS = 632400.3
 
 ```
 
-C. 
+C.  Producer surplus for gas producers
 ```{r}
+# make new equilibrium points for the three taxes with the agg demand
+
+# Tax of $1
+ps_eq_1<- uniroot(function(x) demand_agg(x) - 5.779527, range(x))$root
+ps_1
+# q = 255453
+
+ps_1_base<- 255453
+ps_1_height<- taxfxn_1(5.779527) -  taxfxn_1(0)
+ps_1<- (1/2)*ps_1_base*ps_1_height
+# ps for a 1$ tax = 13.8117
 
 
+# Tax  for $2.50
+ps_eq_2.5<- uniroot(function(x) demand_agg(x) - 6.949245, range(x))$root
+# q = 237800.3
+
+ps_2.5_base<- 237800.3
+ps_2.5_height<- taxfxn_2.5(6.949245) - taxfxn_2.5(0)
+ps_2.5<- (1/2)*ps_2.5_base*ps_2.5_height
+ps_2.5
+# PS under a $2.5 tax = 15.45944
+
+# Tax for $5
+ps_eq_5<- uniroot(function(x) demand_agg(x) -8.898776, range(x))$root
+ps_eq_5
+# q =  208379.2
+
+ps_5_base<- 208379.2
+ps_5_height<- taxfxn_5(8.898776) - taxfxn_5(0)
+ps_5<- (1/2)*ps_5_base*ps_5_height
+ps_5
+# PS under the $5 tax = 17.34716
 
 
-
-
-
+# PRODUCER SURPLUS SUMMARY:
+# No Tax: 668042.7
+# $0.5 Tax: 638946.1
+# $1 Tax: 13.8117
+# $2.5 Tax: 15.45944
+# $5 Tax: 17.34716
 
 
 ```
